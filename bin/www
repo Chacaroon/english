@@ -7,9 +7,6 @@
 var app = require('../app');
 var debug = require('debug')('english:server');
 var http = require('http');
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
-var db = require('./db');
 
 /**
  * Get port from environment and store in Express.
