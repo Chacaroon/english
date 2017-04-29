@@ -7,7 +7,10 @@ const app = require('../app');
 const debug = require('debug')('english:server');
 const http = require('http');
 const config = require('../config');
-const db = require('../db');
+const mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
+
+const db = mongoose.connection;
 
 /**
  * Get port from environment and store in Express.
@@ -24,12 +27,17 @@ const server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-db.connect(function (err) {
-    if (err) throw err;
+mongoose.connect(config.get('dbhost'));
 
+db.on('error', function (err) {
+    console.error('connection error:', err.message);
+});
+
+db.once('open', function callback () {
     server.listen(port);
     server.on('error', onError);
     server.on('listening', onListening);
+    console.log("Connected to DB!");
 });
 
 /**
