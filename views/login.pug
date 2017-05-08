@@ -1,0 +1,19 @@
+extends partials/layout
+
+block content
+    form.form-signin(role='form', action='#', method='post')
+        h2.form-signin-header Please sing in
+            input.form-control(placeholder='Введи ник', type='text', autofocus='', name='username', pattern='[A-z0-9_-]{3,25}', required)
+            input.form-control(placeholder='Введи пароль', type='password', name='password', pattern='[A-z0-9]{3,32}', required)
+
+        .btn-group.btn-group-justified
+            .btn-group
+                button.btn.btn-primary.btn-lg(type='submit', formaction='/login') Log In
+            .btn-group
+                button.btn.btn-primary.btn-lg(type='submit', formaction='/register') Register
+
+        if message
+            br
+            .alert.alert-dismissable.alert-danger
+                button.close(type='button', data-dismiss='alert', arial-hidden='true') &times;
+                span= message

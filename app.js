@@ -5,9 +5,10 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-require('./passport/models/User');
-
-const router = require('./router');
+const flash = require('express-flash');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const serveStatic = require('serve-static');
 
 let app = express();
 
@@ -16,27 +17,29 @@ app.set('view engine', 'pug');
 
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false,
+    store: new MongoStore({ mongooseConnection: require('mongoose').connection })
+}));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('./public'));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(router);
-
-app.use(function(req, res, next) {
-    let err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+app.use(function (req, res, next) {
+    if (req.user) {
+        req.app.locals.auth = !!req.user;
+        req.app.locals.username = req.user.username;
+    }
+    next();
 });
 
-app.use(function(err, req, res, next) {
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-    res.status(err.status || 500);
-    res.render('error');
-});
+app.use(require('./router'));
+app.use(require('./middlewers'));
 
 module.exports = app;

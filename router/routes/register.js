@@ -1,21 +1,17 @@
 /**
- * Created by Nikita on 27.04.2017.
+ * Created by Nikita on 05.05.2017.
  */
 
-const app = new (require('express').Router)();
+const app = require('express').Router();
 const mongoose = require('mongoose');
-const User = mongoose.model('user');
+const User = require('./../../models').User;
 
-app.route('/register')
-    .get(function (req, res) {
-    res.render('register')
-})
-    .post(function (req, res, next) {
+app.post('/register', function (req, res, next) {
     let user = new User({username: req.body.username, password: req.body.password});
     mongoose.connection.collection('users').save(user, function (err) {
         if (err) {
             if (err.code === 11000) {
-                res.render('index', {message: 'Этот ник занят'});
+                res.redirect('/');
             } else {
                 return next(err)
             }

@@ -1,9 +1,15 @@
+/**
+ * Created by Nikita on 05.05.2017.
+ */
 
-const app = (require('express').Router)();
+const app = new (require('express').Router)();
+const fs = require('fs');
+let item;
 
-app.use(require('./main'));
-app.use(require('./users'));
-app.use(require('./register'));
-app.use(require('./login'));
+fs.readdir('./router/routes', function (err, items) {
+    for (item in items) {
+        app.use(require(`./routes/${items[item]}`))
+    }
+});
 
 module.exports = app;
