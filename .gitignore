@@ -31,3 +31,7 @@ npm-debug.log
 
 # Idea
 .idea
+
+# Avatars
+/public/img/avatar/
+!/public/img/avatar/default.jpg

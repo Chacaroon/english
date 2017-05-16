@@ -11,12 +11,17 @@ app.post('/register', function (req, res, next) {
     mongoose.connection.collection('users').save(user, function (err) {
         if (err) {
             if (err.code === 11000) {
-                res.redirect('/');
+                res.app.locals.message = 'This name is already in use';
+                res.redirect('/login');
             } else {
                 return next(err)
             }
         } else {
-            res.redirect('/login')
+            req.logIn(user, function(err) {
+                if (err) { return next(err); }
+                res.app.locals.message = undefined;
+                res.redirect(`/${user.username}`);
+            });
         }
     })
 });

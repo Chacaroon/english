@@ -1,0 +1,20 @@
+#imgUploadModal.modal.fade(role='dialog', aria-labelledby='MyModalLabel', aria-hidden='true')
+    .modal-dialog.modal-lg
+        .modal-content
+            .modal-header
+                button.close(type='button', data-dismiss='modal', aria-hidden='true') &times;
+                h4.modal-title Загрузка новой авы
+            .modal-body
+                #dropZone
+                    | Перетащите файл сюда или нажмите на кнопку ниже
+                    br
+                    br
+                    button.btn.center-block(onclick='this.nextSibling.click(); return false') Загрузить файл
+                    input.hidden(type='file')#file
+                    br
+                    br
+                    .progress.progress-striped
+                        #progress.progress-bar.progress-bar-info(aria-valuemin='0', aria-valuemax='100', style='width: 0%')
+            .modal-footer
+
+script(src='js/dropZone.js')

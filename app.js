@@ -5,10 +5,8 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const flash = require('express-flash');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
-const serveStatic = require('serve-static');
 
 let app = express();
 
@@ -27,14 +25,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static('./public'));
-app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(function (req, res, next) {
     if (req.user) {
-        req.app.locals.auth = !!req.user;
-        req.app.locals.username = req.user.username;
+        let loc = res.locals;
+        loc.auth = !!req.user;
+        loc.user = req.user;
     }
     next();
 });

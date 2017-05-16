@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
         , minlength: 6
         , maxlength: 32
         , match: /^[A-z0-9]+$/
+    },
+    avatar: {
+        type: String
+        , default: 'default.jpg'
     }
 });
 

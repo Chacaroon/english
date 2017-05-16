@@ -2,13 +2,13 @@ extends partials/layout
 
 block content
     .row
-        img#avatar.col-lg-3.col-md-3.col-sm-3.col-xs-3
+        include partials/uploadImgForm
+        img(src='img/avatar/' + otherUser.avatar)#avatar.col-lg-3.col-md-3.col-sm-3.col-xs-3
+    .row
+        br
+        button#uploadBtn.btn.btn-primary.col-lg-3.col-md-3.col-sm-3.col-xs-3(data-toggle='modal', data-target='#imgUploadModal') Загрузить аватар
 
-        script.
-            $(document).ready(function () {
-                $('#avatar')
-                    .error(function () {
-                        $(this).attr('src', 'img/avatar/default.jpg');
-                    })
-                    .attr('src', 'img/avatar/#{username}.jpg');
-            });
+    script.
+        $('#avatar').error(function () {
+            $(this).attr('src', 'img/avatar/default.jpg');
+        })

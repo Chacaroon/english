@@ -2,13 +2,18 @@
  * Created by Nikita on 05.05.2017.
  */
 
-const app = new (require('express').Router)();
+const app = require('express').Router();
 const fs = require('fs');
 let item;
 
+app.use(require('express').static('../public'));
+
 fs.readdir('./router/routes', function (err, items) {
     for (item in items) {
-        app.use(require(`./routes/${items[item]}`))
+        let route = require(`./routes/${items[item]}`);
+        if (route.prototype) {
+            app.use(route);
+        }
     }
 });
 
