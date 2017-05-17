@@ -12,12 +12,10 @@ app.post('/uploadFile', function (req, res, next) {
     let busboy = new Busboy({headers: req.headers});
 
     busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+        let savePath = 'public/img/avatar/';
+        let saveTo = path.join(savePath, filename);
 
-        let imgName = req.user.username + path.extname(filename);
-        let savePath = 'public/img/avatar';
-        let saveTo = path.join(savePath, imgName);
-
-        if (req.user.avatar !== imgName) {
+        /*if (req.user.avatar !== imgName) {
             fs.readdir(savePath, function (err, files) {
                 if (err) next(err);
 
@@ -29,11 +27,15 @@ app.post('/uploadFile', function (req, res, next) {
                     }
                 }
             });
-        }
+        }*/
+        
+        fs.unlink(savePath + req.user.avatar, function (err) {
+            if (err) next(err);
+        });
 
         User.findOneAndUpdate(
             {username: req.user.username}
-            , {avatar: imgName}
+            , {avatar: filename}
             , {new: true}
             , function (err, doc) {
                 if (err) next(err);

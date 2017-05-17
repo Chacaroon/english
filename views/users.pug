@@ -3,10 +3,14 @@ extends partials/layout
 block content
     .row
         include partials/uploadImgForm
-        img(src='img/avatar/' + otherUser.avatar)#avatar.col-lg-3.col-md-3.col-sm-3.col-xs-3
-    .row
-        br
-        button#uploadBtn.btn.btn-primary.col-lg-3.col-md-3.col-sm-3.col-xs-3(data-toggle='modal', data-target='#imgUploadModal') Загрузить аватар
+
+        - var avatar = otherUser ? otherUser.avatar : user.avatar;
+
+        img(src='img/avatar/' + avatar)#avatar.col-lg-3.col-md-3.col-sm-3.col-xs-3
+    if (!otherUser)
+        .row
+            br
+            button#uploadBtn.btn.btn-primary.col-lg-3.col-md-3.col-sm-3.col-xs-3(data-toggle='modal', data-target='#imgUploadModal') Загрузить аватар
 
     script.
         $('#avatar').error(function () {

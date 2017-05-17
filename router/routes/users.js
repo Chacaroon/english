@@ -6,16 +6,13 @@ app.get('/:user', function (req, res, next) {
         if (err) return next(err);
 
         if (user) {
-            let otherUser;
-            if (user !== req.user) otherUser = user;
+            let otherUser = user.equals(req.user) ? false : user;
             return res.render('users', {
                 user: req.user
                 , otherUser: otherUser
             });
         } else {
-            return req.user.username
-                ? res.redirect(req.user.username)
-                : res.redirect('/');
+            return req.user.username ? res.redirect(req.user.username) : res.redirect('/');
         }
     })
 });
