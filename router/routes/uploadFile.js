@@ -15,26 +15,12 @@ app.post('/uploadFile', function (req, res, next) {
         let savePath = 'public/img/avatar/';
         let saveTo = path.join(savePath, filename);
 
-        /*if (req.user.avatar !== imgName) {
-            fs.readdir(savePath, function (err, files) {
-                if (err) next(err);
-
-                let f;
-                for (f in files) {
-                    if (files[f].split('.', 1)[0] === req.user.username) {
-                        fs.unlinkSync(path.join(savePath, files[f]));
-                        break
-                    }
-                }
-            });
-        }*/
-
-        fs.exists(savePath + req.user.avatar, function (err) {
-            if (err) next(err);
-
-            fs.unlink(savePath + req.user.avatar, function (err) {
-                if (err) next(err);
-            });
+        fs.access(savePath + req.user.avatar, function (err) {
+            if (!err && filename !== req.user.avatar) {
+                fs.unlink(savePath + req.user.avatar, function (err) {
+                    if (err) next(err);
+                });
+            }
         });
 
         User.findOneAndUpdate(
