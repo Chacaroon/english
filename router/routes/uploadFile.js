@@ -28,9 +28,13 @@ app.post('/uploadFile', function (req, res, next) {
                 }
             });
         }*/
-        
-        fs.unlink(savePath + req.user.avatar, function (err) {
+
+        fs.exists(savePath + req.user.avatar, function (err) {
             if (err) next(err);
+
+            fs.unlink(savePath + req.user.avatar, function (err) {
+                if (err) next(err);
+            });
         });
 
         User.findOneAndUpdate(
