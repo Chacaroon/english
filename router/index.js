@@ -2,7 +2,9 @@
  * Created by Nikita on 05.05.2017.
  */
 
-const app = require('express').Router();
+const app = require('express').Router({
+    caseSensitive: false
+});
 const fs = require('fs');
 let item;
 

@@ -33,3 +33,26 @@ body {
 #dropZone.success {
     border: 2px solid #26D347;
 }
+
+.dropdown-form {
+    padding: 2px 5px;
+}
+
+.dropdown-menu {
+    background-color: #333;
+    border: #fff;
+}
+
+.btn-inverse {
+    background-color: #333;
+    color: #999;
+    border-color: #000;
+}
+
+.btn-inverse:hover {
+    color: #fff;
+}
+
+#dropdown-input-width {
+    width: 280px;
+}

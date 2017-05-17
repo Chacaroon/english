@@ -11,8 +11,22 @@
         #navik.collapse.navbar-collapse
             ul.nav.navbar-nav
                 li: a(href='/') Главная
+                li: a(href='/english') English
+                li: a(href='/dictionary')
                 li.nav-divider
+
             ul.nav.navbar-nav.navbar-right
+                li.dropdown
+                    a.dropdown-toggle(href='#', data-toggle='dropdown')
+                        | Поиск
+                        span.caret
+                    ul.dropdown-menu
+                        li.dropdown-form
+                            .input-group#dropdown-input-width
+                                input.form-control#search(type='text', placeholder='Searching user...')
+                                span.input-group-btn
+                                    button.btn.btn-inverse#search-btn(type='button') Go!
+
                 if auth
                     li: a(href='/' + user.username) #{user.username}
                     li: a(href='/logout') Выход

@@ -2,7 +2,7 @@ const app = require('express').Router();
 const models = require('./../../models');
 
 app.get('/:user', function (req, res, next) {
-    models.User.findOne({username: req.params.user}, function (err, user) {
+    models.User.findOne({searchname: (req.params.user).toLowerCase()}, function (err, user) {
         if (err) return next(err);
 
         if (user) {

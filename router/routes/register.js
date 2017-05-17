@@ -7,7 +7,11 @@ const mongoose = require('mongoose');
 const User = require('./../../models').User;
 
 app.post('/register', function (req, res, next) {
-    let user = new User({username: req.body.username, password: req.body.password});
+    let user = new User({
+        username: req.body.username
+        , password: req.body.password
+        , searchname: (req.body.username).toLowerCase()
+    });
     mongoose.connection.collection('users').save(user, function (err) {
         if (err) {
             if (err.code === 11000) {
@@ -18,9 +22,10 @@ app.post('/register', function (req, res, next) {
             }
         } else {
             req.logIn(user, function(err) {
-                if (err) { return next(err); }
+                if (err) return next(err);
+
                 res.app.locals.message = undefined;
-                res.redirect(`/${user.username}`);
+                res.redirect(user.username);
             });
         }
     })
