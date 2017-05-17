@@ -12,7 +12,7 @@ app.get('/:user', function (req, res, next) {
                 , otherUser: otherUser
             });
         } else {
-            return req.user.username ? res.redirect(req.user.username) : res.redirect('/');
+            return req.user ? res.redirect(req.user.username) : res.redirect('/');
         }
     })
 });
